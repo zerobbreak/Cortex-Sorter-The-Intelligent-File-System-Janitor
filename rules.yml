@@ -1,0 +1,356 @@
+# ===========================================================================
+# CORTEX SORTER - RULES CONFIGURATION (Phase 2)
+# ===========================================================================
+# 
+# Rule Processing Order: Rules are evaluated top-to-bottom. The first match wins.
+# Place more specific rules at the top, general catch-all rules at the bottom.
+#
+# Rule Criteria:
+#   - extensions: List of file extensions to match (e.g., [".pdf", ".docx"])
+#   - name_contains: Keywords in the filename (case-insensitive)
+#   - content_contains: Keywords inside PDF files (case-insensitive)
+#
+# All criteria within a rule must match (AND logic).
+# If any criterion is omitted, it's not evaluated.
+# ===========================================================================
+
+# --- Core Folders ---
+source_folder: "~/Downloads"
+duplicate_folder: "~/Downloads/_Duplicates"
+
+# --- Sorting Rules ---
+rules:
+  # -------------------------------------------------------------------------
+  # FINANCIAL DOCUMENTS (High Priority - Check Content First)
+  # -------------------------------------------------------------------------
+  
+  - name: "Tax Documents"
+    type: "pdf"
+    extensions: [".pdf"]
+    content_contains: 
+      - "Tax Return"
+      - "IRS"
+      - "SARS"  # South African Revenue Service
+      - "Tax Assessment"
+      - "W-2"
+      - "1099"
+    dest: "~/Documents/Finance/Taxes"
+
+  - name: "Bank Statements"
+    type: "pdf"
+    extensions: [".pdf"]
+    content_contains:
+      - "Account Statement"
+      - "Bank Statement"
+      - "Opening Balance"
+      - "Closing Balance"
+      - "Transaction History"
+    dest: "~/Documents/Finance/Statements"
+
+  - name: "Invoices & Receipts"
+    type: "pdf"
+    extensions: [".pdf"]
+    content_contains:
+      - "Invoice"
+      - "Receipt"
+      - "Order Confirmation"
+      - "Payment Received"
+      - "Balance Due"
+      - "Amount Due"
+      - "Bill To"
+    dest: "~/Documents/Finance/Invoices"
+
+  - name: "Insurance Documents"
+    type: "pdf"
+    extensions: [".pdf"]
+    content_contains:
+      - "Policy Number"
+      - "Insurance Certificate"
+      - "Coverage"
+      - "Premium"
+      - "Claim"
+    dest: "~/Documents/Finance/Insurance"
+
+  # -------------------------------------------------------------------------
+  # WORK & PROFESSIONAL DOCUMENTS
+  # -------------------------------------------------------------------------
+
+  - name: "Confidential Work Documents"
+    type: "pdf"
+    extensions: [".pdf", ".docx"]
+    content_contains:
+      - "Confidential"
+      - "Internal Use Only"
+      - "Proprietary"
+      - "NDA"
+      - "Non-Disclosure"
+    dest: "~/Documents/Work/Confidential"
+
+  - name: "Meeting Notes & Minutes"
+    type: "document"
+    extensions: [".pdf", ".docx", ".txt", ".md"]
+    name_contains:
+      - "meeting"
+      - "minutes"
+      - "notes"
+      - "agenda"
+    dest: "~/Documents/Work/Meetings"
+
+  - name: "Quarterly Reports"
+    type: "pdf"
+    extensions: [".pdf"]
+    content_contains:
+      - "Quarterly Report"
+      - "Q1 Report"
+      - "Q2 Report"
+      - "Q3 Report"
+      - "Q4 Report"
+    dest: "~/Documents/Work/Reports"
+
+  - name: "Contracts & Agreements"
+    type: "pdf"
+    extensions: [".pdf", ".docx"]
+    content_contains:
+      - "Agreement"
+      - "Contract"
+      - "Terms and Conditions"
+      - "Hereby Agree"
+      - "Signature"
+    dest: "~/Documents/Legal/Contracts"
+
+  # -------------------------------------------------------------------------
+  # RESUMES & CAREER DOCUMENTS
+  # -------------------------------------------------------------------------
+
+  - name: "Resumes & CVs"
+    type: "document"
+    extensions: [".pdf", ".docx"]
+    name_contains:
+      - "resume"
+      - "cv"
+      - "curriculum"
+    dest: "~/Documents/Career/Resumes"
+
+  - name: "Cover Letters"
+    type: "document"
+    extensions: [".pdf", ".docx"]
+    name_contains:
+      - "cover letter"
+      - "coverletter"
+      - "application letter"
+    dest: "~/Documents/Career/CoverLetters"
+
+  # -------------------------------------------------------------------------
+  # ACADEMIC & EDUCATIONAL
+  # -------------------------------------------------------------------------
+
+  - name: "Research Papers"
+    type: "pdf"
+    extensions: [".pdf"]
+    content_contains:
+      - "Abstract"
+      - "References"
+      - "Bibliography"
+      - "Research Paper"
+      - "Journal"
+    dest: "~/Documents/Research/Papers"
+
+  - name: "Course Materials"
+    type: "document"
+    extensions: [".pdf", ".pptx", ".docx"]
+    name_contains:
+      - "lecture"
+      - "syllabus"
+      - "course"
+      - "assignment"
+      - "homework"
+    dest: "~/Documents/Education/Courses"
+
+  # -------------------------------------------------------------------------
+  # MEDIA FILES (By Filename Patterns)
+  # -------------------------------------------------------------------------
+
+  - name: "Screenshots"
+    type: "image"
+    extensions: [".png", ".jpg", ".jpeg"]
+    name_contains:
+      - "screenshot"
+      - "screen shot"
+      - "screen_shot"
+      - "screencapture"
+      - "scr_"
+    dest: "~/Pictures/Screenshots"
+
+  - name: "Photos from Phone"
+    type: "image"
+    extensions: [".jpg", ".jpeg", ".heic"]
+    name_contains:
+      - "img_"
+      - "dsc_"
+      - "photo"
+      - "pano"
+      - "portrait"
+    dest: "~/Pictures/Phone Photos"
+
+  - name: "Zoom Recordings"
+    type: "video"
+    extensions: [".mp4", ".mov"]
+    name_contains:
+      - "zoom"
+      - "meeting"
+      - "recording"
+    dest: "~/Videos/Meetings"
+
+  # -------------------------------------------------------------------------
+  # COMPRESSED FILES & INSTALLERS
+  # -------------------------------------------------------------------------
+
+  - name: "macOS Installers"
+    type: "installer"
+    extensions: [".dmg", ".pkg"]
+    dest: "~/Downloads/_Installers/macOS"
+
+  - name: "Windows Installers"
+    type: "installer"
+    extensions: [".exe", ".msi"]
+    dest: "~/Downloads/_Installers/Windows"
+
+  - name: "Compressed Archives"
+    type: "archive"
+    extensions: [".zip", ".rar", ".7z", ".tar", ".gz", ".bz2"]
+    dest: "~/Downloads/_Archives"
+
+  # -------------------------------------------------------------------------
+  # CODE & DEVELOPMENT FILES
+  # -------------------------------------------------------------------------
+
+  - name: "Code Archives"
+    type: "code"
+    extensions: [".zip", ".tar.gz", ".tar"]
+    name_contains:
+      - "source"
+      - "src"
+      - "code"
+      - "project"
+      - "repo"
+    dest: "~/Development/Archives"
+
+  - name: "Database Files"
+    type: "database"
+    extensions: [".sql", ".db", ".sqlite", ".sqlite3"]
+    dest: "~/Development/Databases"
+
+  - name: "JSON & YAML Configs"
+    type: "config"
+    extensions: [".json", ".yaml", ".yml", ".toml", ".ini"]
+    dest: "~/Development/Configs"
+
+  # -------------------------------------------------------------------------
+  # EBOOKS & READING MATERIALS
+  # -------------------------------------------------------------------------
+
+  - name: "eBooks"
+    type: "ebook"
+    extensions: [".epub", ".mobi", ".azw", ".azw3"]
+    dest: "~/Documents/Books/eBooks"
+
+  - name: "Technical Books & Manuals"
+    type: "pdf"
+    extensions: [".pdf"]
+    name_contains:
+      - "manual"
+      - "guide"
+      - "handbook"
+      - "tutorial"
+      - "documentation"
+    dest: "~/Documents/Books/Technical"
+
+  # -------------------------------------------------------------------------
+  # SPREADSHEETS & DATA FILES
+  # -------------------------------------------------------------------------
+
+  - name: "Excel Spreadsheets"
+    type: "spreadsheet"
+    extensions: [".xlsx", ".xls", ".xlsm"]
+    dest: "~/Documents/Spreadsheets"
+
+  - name: "CSV Data Files"
+    type: "data"
+    extensions: [".csv", ".tsv"]
+    dest: "~/Documents/Data"
+
+  # -------------------------------------------------------------------------
+  # AUDIO FILES
+  # -------------------------------------------------------------------------
+
+  - name: "Music Files"
+    type: "audio"
+    extensions: [".mp3", ".flac", ".m4a", ".wav", ".aac"]
+    dest: "~/Music/Downloads"
+
+  - name: "Podcasts & Audiobooks"
+    type: "audio"
+    extensions: [".mp3", ".m4a"]
+    name_contains:
+      - "podcast"
+      - "episode"
+      - "audiobook"
+    dest: "~/Music/Podcasts"
+
+  # -------------------------------------------------------------------------
+  # GENERAL CATCH-ALL RULES (Low Priority)
+  # -------------------------------------------------------------------------
+
+  - name: "General PDFs"
+    type: "pdf"
+    extensions: [".pdf"]
+    dest: "~/Documents/PDFs"
+
+  - name: "General Images"
+    type: "image"
+    extensions: [".png", ".jpg", ".jpeg", ".gif", ".bmp", ".svg", ".webp"]
+    dest: "~/Pictures/Misc"
+
+  - name: "General Videos"
+    type: "video"
+    extensions: [".mp4", ".mov", ".avi", ".mkv", ".webm"]
+    dest: "~/Videos/Misc"
+
+  - name: "General Documents"
+    type: "document"
+    extensions: [".docx", ".doc", ".txt", ".rtf", ".odt"]
+    dest: "~/Documents/Misc"
+
+  - name: "Presentations"
+    type: "presentation"
+    extensions: [".pptx", ".ppt", ".key"]
+    dest: "~/Documents/Presentations"
+
+# ===========================================================================
+# TIPS FOR CUSTOMIZATION:
+# ===========================================================================
+#
+# 1. RULE ORDER MATTERS: More specific rules should be at the top.
+#    Example: "Tax Documents" should come before "General PDFs"
+#
+# 2. COMBINING CRITERIA: All criteria in a rule must match.
+#    Example: To match PDFs with "invoice" in the name:
+#    extensions: [".pdf"]
+#    name_contains: ["invoice"]
+#
+# 3. CONTENT MATCHING: Only works with PDFs. Scans first 10 pages.
+#    Use for documents where the filename isn't reliable.
+#
+# 4. CASE INSENSITIVE: All matching is case-insensitive.
+#    "Invoice" matches "invoice", "INVOICE", "InVoIcE"
+#
+# 5. PARTIAL MATCHING: Keywords match anywhere in the text.
+#    "screenshot" will match "Screenshot 2024-01-15.png"
+#
+# 6. TESTING: Add a test rule at the top to verify your config:
+#    - name: "Test Rule"
+#      extensions: [".txt"]
+#      name_contains: ["test"]
+#      dest: "~/Desktop/Test"
+#
+# ===========================================================================
